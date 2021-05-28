@@ -13,7 +13,6 @@ if __name__ == '__main__':
 
     # 特征列
     birthplace = tf.feature_column.sequence_categorical_column_with_identity("birthplace", num_buckets=3, default_value=0)
-
     # age = tf.feature_column.categorical_column_with_identity("age", num_buckets=3, default_value=0)
     birthplace_onehot = tf.feature_column.indicator_column(birthplace)
     birthplace_emb = tf.feature_column.embedding_column(birthplace, dimension=3)
@@ -35,5 +34,5 @@ if __name__ == '__main__':
         init = tf.global_variables_initializer()
         sess.run(tf.tables_initializer())
         sess.run(init)
-        v = sess.run(inputs)
+        v = sess.run(inputs + birthplace)
         print(v)
