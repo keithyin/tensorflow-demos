@@ -2,6 +2,8 @@ import tensorflow as tf
 import numpy as np
 from tensorflow.saved_model import signature_constants
 
+EMB_TABLE = tf.get_variable("emb_table", shape=[10, 1])
+
 
 def cnn_model_fn(features, labels, mode):
     """Model function for CNN."""
@@ -34,7 +36,7 @@ def cnn_model_fn(features, labels, mode):
         inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
 
     # Logits Layer
-    logits = tf.layers.dense(inputs=dropout, units=10)
+    logits = tf.layers.dense(inputs=dropout, units=10) + EMB_TABLE[0:1]
 
     cls_summ = tf.summary.histogram("class_dist", tf.argmax(input=logits, axis=1))
 
@@ -141,5 +143,5 @@ if __name__ == '__main__':
                                       start_delay_secs=20,
                                       exporters=exporter, throttle_secs=5)
 
-    # tf.estimator.train_and_evaluate(estimator=mnist_classifier, train_spec=train_spec, eval_spec=eval_spec)
+    tf.estimator.train_and_evaluate(estimator=mnist_classifier, train_spec=train_spec, eval_spec=eval_spec)
 

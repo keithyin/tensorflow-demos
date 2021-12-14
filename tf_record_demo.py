@@ -1,5 +1,7 @@
 # coding=utf-8
 import tensorflow as tf
+import numpy as np
+np.array([1.0]).astype(np.int64)
 
 
 def _bytes_feature(*value):
@@ -42,9 +44,10 @@ def parse_from_record_graph():
     def _parse_example_function(example_proto):
         # Parse the input tf.Example proto using the dictionary above.
         example = tf.parse_single_example(example_proto, feature_description)
+        visited_city = tf.constant(value=[1], dtype=tf.float32)
         # visited_city = tf.io.decode_raw(example['visited_city'], out_type=tf.int64)
-        visited_city = example["visited_city"]  # 因为使用 VarLenFeature解析，所以返回的是 tf.sparse.SparseTensor类型
-        visited_city = tf.sparse.to_dense(visited_city)  # 转成 dense 类型。
+        # visited_city = example["visited_city"]  # 因为使用 VarLenFeature解析，所以返回的是 tf.sparse.SparseTensor类型
+        # visited_city = tf.sparse.to_dense(visited_city)  # 转成 dense 类型。
         return visited_city, example['sequence_feas']
 
     parsed_image_dataset = raw_image_dataset.map(_parse_example_function)

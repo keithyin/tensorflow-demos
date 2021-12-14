@@ -6,9 +6,9 @@ if __name__ == '__main__':
 
     # 特征数据
     features = {
-        'birthplace': [[1, 2], [1, 4], [3, 3], [4, 5]],
-        'age': [[1], [2], [3], [4]],
-        'profile_list': [[1, 2], [1, 4], [3, 3], [4, 5]]
+        'birthplace': tf.constant([[1], [4], [3], [5]]),
+        'age': tf.constant([[1], [2], [3], [4]]),
+        'profile_list': tf.constant([[1, 2], [1, 4], [3, 3], [4, 5]])
     }
 
     # 特征列
@@ -34,5 +34,5 @@ if __name__ == '__main__':
         init = tf.global_variables_initializer()
         sess.run(tf.tables_initializer())
         sess.run(init)
-        v = sess.run(inputs + birthplace)
-        print(v)
+        v = sess.run(inputs)
+        print(v[0].shape)

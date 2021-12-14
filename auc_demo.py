@@ -14,7 +14,7 @@ is_reset_global_step = tf.equal(global_step % 4, 0)
 
 reset_auc = tf.cond(is_reset_global_step,
                     lambda: tf.group([tf.assign(ref, tf.zeros_like(ref))
-                                      for ref in tf.local_variables() if 'auc' in ref.op.name]),
+                                      for ref in tf.local_variables() if 'auc' in ref.OP.name]),
                     lambda: tf.no_op())
 
 with tf.Session() as sess:
