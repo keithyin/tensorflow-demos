@@ -74,6 +74,7 @@ def model_fn_2(features, labels, mode):
 
 
 def profile_1():
+    # 1e5 samples. batch16. 129s
     estimator = tf.estimator.Estimator(model_fn=model_fn)
     begin_t = time.time()
     estimator.train(input_fn=input_fn_builder(_parse))
@@ -82,6 +83,7 @@ def profile_1():
 
 
 def profile_2():
+    # 1e5 samples. batch16. 16s
     estimator = tf.estimator.Estimator(model_fn=model_fn_2)
     begin_t = time.time()
     estimator.train(input_fn=input_fn_builder(_parse_v2))
